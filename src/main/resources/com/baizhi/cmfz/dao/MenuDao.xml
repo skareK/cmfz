@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namesapce的值是dao接口的全限定名 -->
+<mapper namespace="com.baizhi.cmfz.dao.MenuDao">
+    <resultMap id="menuMap" type="Menu">
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_title" property="menuTitle"/>
+        <result column="menu_iconCls" property="menuIconCls"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="menu_url" property="menuUrl"/>
+        <collection property="menus" ofType="Menu">
+            <id column="scid" property="menuId"/>
+            <result column="sc_title" property="menuTitle"/>
+            <result column="sc_iconCls" property="menuIconCls"/>
+            <result column="sc_url" property="menuUrl"/>
+        </collection>
+    </resultMap>
+
+    <select id="queryAll" resultMap="menuMap">
+        select m1.*,m2.menu_id scid,m2.menu_title sc_title,m2.menu_iconCls sc_iconCls,m2.menu_url sc_url FROM
+        menu m1 left join menu m2 on m1.menu_id=m2.parent_id
+        where m1.parent_id is null;
+    </select>
+</mapper>
