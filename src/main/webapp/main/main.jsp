@@ -7,29 +7,70 @@
     <title>持名法州主页</title>
     <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="../themes/IconExtension.css">
-    <script type="text/javascript" src="../js/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/jquery.easyui.min.js"></script>
-    <script type="text/javascript" src="../js/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript">
         <!--菜单处理-->
+        $(function () {
+            $.ajax({
+                url: "${pageContext.request.contextPath}/main/getMenus",
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+//                   console.log(data);
+                    $.each(data, function (index, first) {
+                        var ss = "";
+                        $.each(first.menus, function (index1, second) {
+                            ss = "<div align='center'><a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" data-options=\"iconCls:'" + second.menuIconCls + "'\" style=\"text-decoration:none\" onclick=\"toAddTabs('" + second.menuTitle + "')\">" + second.menuTitle + "</a></div>"
 
-        //添加一个展示图书信息的页签
-        /* function toAddTabsForBookInfo(node){
-             var isExist=$("#ct").tabs("exists",node.text);
+                        }),
+                            $('#aa').accordion('add', {
+                                title: first.menuTitle,
+                                iconCls: first.menuIconCls,
+                                content: ss,
+                                selected: false
+                            });
+                    })
+                }
+            });
+        })
+
+        //添加一个页签
+        function toAddTabs(title) {
+            alert(title);
+            $("#tt").tabs("add", {
+                title: title,
+                closable: true,
+                iconCls: "icon-save",
+                content: "<iframe src='${pageContext.request.contextPath}/img/4.gif' width='100%' height='100%'></iframe>"
+            });
+
+            /* var isExist=$("#tt").tabs("exists",title);
              if(isExist){
                  //存在
-                 $("#ct").tabs("select",node.text);
+                 $("#tt").tabs("select",title);
              }else{
                  //不存在
-                 $("#ct").tabs("add",{
-                     title:node.text,
+                 $("#tt").tabs("add",{
+                     title:title,
                      closable:true,
                      iconCls:"icon-save",
-                     content:"<iframe src='book.jsp?id="+node.id+"' width='100%' height='100%'></iframe>"
+                     // content:"<iframe src='book.jsp?id="+node.id+"' width='100%' height='100%'></iframe>"
                  });
-             }
-         };*/
-        //添加一个展示图书信息的页签==END==
+             }*/
+        };
+
+        /*$('#tt').tabs('add',{
+            content:'Tab Body',
+            tools:[{
+                iconCls:'icon-mini-refresh',
+                handler:function(){
+                    alert('refresh');
+                }
+            }]
+        });*/
+        //添加一个页签==END==
     </script>
 
 </head>
@@ -50,16 +91,15 @@
 
 <div data-options="region:'west',title:'导航菜单',split:true" style="width:220px;">
     <div id="aa" class="easyui-accordion" data-options="fit:true">
-        <c:forEach items="${requestScope.menuList}" var="menu">
+        <%--<c:forEach items="${requestScope.menuList}" var="menu">
             <div title="${menu.menuTitle}" data-options="iconCls:'icon-cut'" style="overflow:auto;padding:10px;">
                 <c:forEach items="${menu.menus}" var="men">
                     <div align="center">
-                        <a href="javascript:void(0)" class data-options="iconCls:'icon-tip'"
-                           style="text-decoration:none" onclick="toAddTabsForUserInfo()">${men.menuTitle}</a>
+                        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add'" style="text-decoration:none" onclick="toAddTabs(${men.menuTitle})">${men.menuTitle}</a>
                     </div>
                 </c:forEach>
             </div>
-        </c:forEach>
+        </c:forEach>--%>
     </div>
 </div>
 
