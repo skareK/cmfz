@@ -20,7 +20,7 @@ public class ManagerController {
         String code = (String) session.getAttribute("vrifyCode");
         if (manager != null && code.equals(enCode)) {
             session.setAttribute("manager", manager);
-            return "redirect:/main/getMenus";
+            return "redirect:/main/main.jsp";
         }
         return "login";
     }

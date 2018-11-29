@@ -5,11 +5,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <title>持名法州主页</title>
-    <link rel="stylesheet" type="text/css" href="../themes/default/easyui.css">
-    <link rel="stylesheet" type="text/css" href="../themes/IconExtension.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/IconExtension.css">
+    <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/themes/icon.css">
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/datagrid-detailview.js"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.edatagrid.js"></script>
     <script type="text/javascript">
         <!--菜单处理-->
         $(function () {
@@ -22,7 +25,7 @@
                     $.each(data, function (index, first) {
                         var ss = "";
                         $.each(first.menus, function (index1, second) {
-                            ss = "<div align='center'><a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" data-options=\"iconCls:'" + second.menuIconCls + "'\" style=\"text-decoration:none\" onclick=\"toAddTabs('" + second.menuTitle + "')\">" + second.menuTitle + "</a></div>"
+                            ss = "<div align='center'><a href=\"javascript:void(0)\" class=\"easyui-linkbutton\" data-options=\"iconCls:'" + second.menuIconCls + "'\" style=\"text-decoration:none\" onclick=\"toAddTabs('" + second.menuTitle + "','" + second.menuUrl + "','" + second.menuIconCls + "')\">" + second.menuTitle + "</a></div>"
 
                         }),
                             $('#aa').accordion('add', {
@@ -37,40 +40,22 @@
         })
 
         //添加一个页签
-        function toAddTabs(title) {
-            alert(title);
-            $("#tt").tabs("add", {
-                title: title,
-                closable: true,
-                iconCls: "icon-save",
-                content: "<iframe src='${pageContext.request.contextPath}/img/4.gif' width='100%' height='100%'></iframe>"
-            });
-
-            /* var isExist=$("#tt").tabs("exists",title);
+        function toAddTabs(title, url, iconCls) {
+//            alert(title+"====="+url+"-=-==-="+iconCls);
+            var isExist = $("#tt").tabs("exists", title);
              if(isExist){
                  //存在
                  $("#tt").tabs("select",title);
              }else{
                  //不存在
-                 $("#tt").tabs("add",{
-                     title:title,
-                     closable:true,
-                     iconCls:"icon-save",
-                     // content:"<iframe src='book.jsp?id="+node.id+"' width='100%' height='100%'></iframe>"
+                 $("#tt").tabs("add", {
+                     title: title,
+                     closable: true,
+                     iconCls: iconCls,
+                     href: "${pageContext.request.contextPath}/" + url + ""
                  });
-             }*/
+             }
         };
-
-        /*$('#tt').tabs('add',{
-            content:'Tab Body',
-            tools:[{
-                iconCls:'icon-mini-refresh',
-                handler:function(){
-                    alert('refresh');
-                }
-            }]
-        });*/
-        //添加一个页签==END==
     </script>
 
 </head>
