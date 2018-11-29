@@ -29,10 +29,12 @@ public class BannerController {
 
         if (!"".equals(uploadFile.getOriginalFilename())) {
             //处理文件上传的内容
-            String realPath = request.getSession().getServletContext().getRealPath("/img");
+            String realPath = request.getSession().getServletContext().getRealPath("/bannerpic");
+
+            String filePath = "/bannerpic";
             String newFileName = new Date().getTime() + "_" + uploadFile.getOriginalFilename();
 
-            banner.setImgPath(realPath + "/" + newFileName);
+            banner.setImgPath(filePath + "/" + newFileName);
             //写入数据库
             try {
                 bannerService.addBanner(banner);
@@ -41,7 +43,7 @@ public class BannerController {
                 return false;
             }
             //文件上传
-            File pfile = new File(realPath + "/" + newFileName);
+            File pfile = new File(realPath + "\\" + newFileName);
             try {
                 uploadFile.transferTo(pfile);
             } catch (IOException e) {

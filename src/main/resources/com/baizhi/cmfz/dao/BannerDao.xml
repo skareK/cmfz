@@ -17,7 +17,8 @@
     </update>
 
     <insert id="insert">
-        insert into banner(title,imgPath,desc,status,date) values(#{title},#{imgPath},#{desc},#{status},#{date})
+        insert into banner values(null,#{title},#{imgPath},#{desc},#{status},#{date})
+        /*insert into banner values(null,'ewqe','fwef','dwq','ef',SYSDATE())*/;
     </insert>
 
     <delete id="delete">

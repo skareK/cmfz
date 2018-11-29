@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namesapce的值是dao接口的全限定名 -->
+<mapper namespace="com.baizhi.cmfz.dao.AlbumDao">
+    <resultMap id="albumMap" type="Album">
+        <id column="album_id" property="id"/>
+        <result column="album_title" property="title"/>
+        <result column="album_coverimg" property="albumCoverimg"/>
+        <result column="album_count" property="albumCount"/>
+        <result column="album_score" property="albumScore"/>
+        <result column="album_author" property="albumAuthor"/>
+        <result column="album_brief" property="albumBrief"/>
+        <result column="album_publishDate" property="albumPublishDate"/>
+        <collection property="children" ofType="Chapter">
+            <id column="chapter_id" property="id"/>
+            <result column="chapter_title" property="title"/>
+            <result column="chapter_size" property="chapterSize"/>
+            <result column="chapter_duration" property="chapterDuration"/>
+            <result column="chapter_downPath" property="chapterDownPath"/>
+            <result column="chapter_uploadDate" property="chapterUploadDate"/>
+            <result column="cp_id" property="albumId"/>
+        </collection>
+    </resultMap>
+
+    <select id="getTotal" resultType="int">
+        select count(*) from album
+    </select>
+
+    <select id="queryAll" resultMap="albumMap">
+        select a.*,c.chapter_id,c.chapter_title,c.chapter_size,c.chapter_duration,c.chapter_downPath,c.chapter_uploadDate,c.album_id cp_id from
+        album a left join chapter c on a.album_id=c.album_id limit #{start},#{rows}
+    </select>
+    <!--<insert id="insert">
+
+    </insert>
+
+    <delete id="delete">
+
+    </delete>-->
+</mapper>
